@@ -1,0 +1,18 @@
+services:
+
+  backend:
+    build: ./backend/backend
+    container_name: github-backend
+
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: github-frontend
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      - backend
