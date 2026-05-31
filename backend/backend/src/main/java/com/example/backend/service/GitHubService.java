@@ -18,21 +18,22 @@ public class GitHubService {
     private WebClient webClient;
 
     public GitHubUserDTO getUser(String username) {
-                try {
-                 return webClient.get()
+    try {
+
+        return webClient.get()
                 .uri("/users/" + username)
                 .retrieve()
                 .bodyToMono(GitHubUserDTO.class)
                 .block();
-                    
-                } catch (Exception e) {
-                     System.out.println("ERROR = " + e.getMessage());
 
+    } catch (Exception e) {
+
+        System.out.println("FULL ERROR:");
         e.printStackTrace();
 
         throw e;
-                }
     }
+}
 
 
     public List<GitHubRepoDTO> getRepos(String username){
