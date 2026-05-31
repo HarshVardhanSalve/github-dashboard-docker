@@ -16,7 +16,7 @@ import com.example.backend.service.GitHubService;
 
 @RestController
 @RequestMapping("/api/github")
-@CrossOrigin(origins = "https://your-frontend-app.onrender.com")
+@CrossOrigin(origins = "https://github-dashboard-docker-1.onrender.com")
 public class GitHubController {
 
     @Autowired
