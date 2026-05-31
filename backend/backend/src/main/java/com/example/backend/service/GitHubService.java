@@ -26,7 +26,11 @@ public class GitHubService {
                 .block();
                     
                 } catch (Exception e) {
-                    throw  new RuntimeException("User not found");
+                     System.out.println("ERROR = " + e.getMessage());
+
+        e.printStackTrace();
+
+        throw e;
                 }
     }
 
@@ -41,7 +45,11 @@ public class GitHubService {
             .block();
             
         } catch (Exception e) {
-             throw  new RuntimeException("Repositories not found");
+              System.out.println("ERROR = " + e.getMessage());
+
+        e.printStackTrace();
+
+        throw e;
         }
     }
 }
