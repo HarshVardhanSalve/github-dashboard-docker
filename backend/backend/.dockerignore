@@ -1,1 +1,6 @@
+target
+.mvn
 .git
+.idea
+.vscode
+*.iml
