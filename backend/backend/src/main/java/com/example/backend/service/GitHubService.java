@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.example.backend.dto.GitHubRepoDTO;
 import com.example.backend.dto.GitHubUserDTO;
 
+import reactor.core.publisher.Mono;
+
 
 @Service
 public class GitHubService {
@@ -23,18 +25,13 @@ public class GitHubService {
         return webClient.get()
         .uri("/users/" + username)
         .retrieve()
-        .onStatus(
-                status -> status.isError(),
-                response -> response.bodyToMono(String.class)
-                        .flatMap(error -> {
-                            System.out.println("GitHub Response:");
-                            System.out.println(error);
-                            return reactor.core.publisher.Mono.error(
-                                    new RuntimeException(error));
-                        })
-        )
-        .bodyToMono(GitHubUserDTO.class)
-        .block();
+.onStatus(
+    status -> status.value() == 403,
+    response -> response.bodyToMono(String.class)
+        .flatMap(body -> Mono.error(new RuntimeException(body)))
+)
+.bodyToMono(GitHubUserDTO.class)
+.block();
 
     } catch (Exception e) {
 
