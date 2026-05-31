@@ -21,10 +21,20 @@ public class GitHubService {
     try {
 
         return webClient.get()
-                .uri("/users/" + username)
-                .retrieve()
-                .bodyToMono(GitHubUserDTO.class)
-                .block();
+        .uri("/users/" + username)
+        .retrieve()
+        .onStatus(
+                status -> status.isError(),
+                response -> response.bodyToMono(String.class)
+                        .flatMap(error -> {
+                            System.out.println("GitHub Response:");
+                            System.out.println(error);
+                            return reactor.core.publisher.Mono.error(
+                                    new RuntimeException(error));
+                        })
+        )
+        .bodyToMono(GitHubUserDTO.class)
+        .block();
 
     } catch (Exception e) {
 
